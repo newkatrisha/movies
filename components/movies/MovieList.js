@@ -1,28 +1,22 @@
 import React from 'react';
 import MovieSummary from './MovieSummary';
+import { Link } from 'react-router-dom';
 
-const MovieList  = ({movies}) => {
 
+const MovieList = ({movies}) => {
     return (
-        <div className="ui three column grid"> 
- 
-                    { movies && movies.map(movie => {
-                        console.log(movie);
-                        return (
-                            
-                                <div className="column">
-                                <MovieSummary  movie={movie} key={movie.id}  />
-
-                                </div>
-                                
-                            
-                        )
-                    })}
-     
+        <div className="ui five column grid"> 
+            { movies && movies.map(movie => {
+                return (
+                    <div className="column">
+                    <Link to={'/movies/' + movie.id }>
+                            <MovieSummary movie={movie} key={movie.id}  />
+                        </Link>
+                    </div>
+                )
+            })}
         </div>                   
     )
 }
 
 export default MovieList;
-
-{/* <button>Hello</button>  */}

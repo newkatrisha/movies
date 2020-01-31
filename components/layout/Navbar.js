@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 import { connect } from 'react-redux';
+import SearchFilter from './SearchFilter';
 
 const Navbar = (props) => {
-
     const { auth } = props;
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
     return (
@@ -17,10 +17,7 @@ const Navbar = (props) => {
                 </Link>
             </div>
             <div className="item">
-                <div id="search" className="ui icon input">
-                    <input type="text" placeholder="Search..." />
-                    <i className="search icon" />
-                </div>
+                <SearchFilter />
             </div>
             { links }
         </div>

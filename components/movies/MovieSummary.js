@@ -1,93 +1,90 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addMovie } from '../../store/actions/movieActions';
-import { deleteMovie } from '../../store/actions/movieActions';
-
+import { addMovie, deleteMovie, likeMovie, dislikeMovie } from '../../store/actions/movieActions';
 
 
 const MovieSummary = (props) => {
-    console.log(props);
+    // console.log(props);
     const onAddClick = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         props.addMovie(props.movie);
     }
     const onDeleteClick = (e) => {
+        e.preventDefault();
         props.deleteMovie(props.movie);
+    }
+
+    const onLikeClick = (e) => {
+        e.preventDefault();
+        props.likeMovie(props.movie);
+    }
+
+    const onDislikeClick = (e) => {
+        e.preventDefault();
+        props.dislikeMovie(props.movie)
     }
 
     let exists = 0;
     props.userMovies && props.userMovies.forEach(element => {
-        if (props.movie.id == element.id){
+        if (props.movie.id === element.id){
             exists = 1;
         }
     });
 
-    // console.log("exists = ", exists)
-
+    let x = 0;
+    props.ratedMovies && props.ratedMovies.forEach(e => {
+        if(e.movie === props.movie.id && e.state === 1) {
+            x = 1;
+        }
+    })
+    
     const button = 
         exists ?
-        <button onClick={onDeleteClick}>Delete</button> :
-        <button onClick={onAddClick}>Add</button>
-    
+        <button className="ui red button" onClick={onDeleteClick}><i className="heart outline icon"></i></button> :
+        <button className="ui green button" onClick={onAddClick}><i className="heart icon"></i></button>
 
-    
+    const buttonLike = 
+        x ? 
+        <button onClick={onDislikeClick} className="ui red button"> 
+            <i className="thumbs down icon"></i>
+        </button> :
+        <button onClick={onLikeClick} className="ui green button">
+            <i className="thumbs up icon"></i>
+        </button> 
+
     return (
-        
-            <div className="ui fluid card">
-                <div className="image">
-                    <img alt="" src={props.movie.poster} />
-                </div>
-                <div className="content">
-                    <a href="/" className="header">{props.movie.title}</a>
-                </div>
-                {button}
-                
+        <div className="ui fluid card">
+            <div className="image">
+                <img alt="" src={props.movie.poster} />
             </div>
-            
-            
-        
-        
-        
+            <div className="content">
+                <a href="/" className="header">{props.movie.title} /</a>
+            </div>
+            <div className="extra content">
+                { props.auth.uid ? button : null } 
+                { props.auth.uid ? buttonLike : null }
+            </div>
+        </div>
     )
-    
 }
 
-
-
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         auth: state.firebase.auth,
-        userMovies: state.firebase.profile.movies
+        userMovies: state.firebase.profile.movies,
+        ratedMovies: state.firebase.profile.ratedMovies
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return { 
         addMovie: (movie) => dispatch(addMovie(movie)),
-        deleteMovie: (movie) => dispatch(deleteMovie(movie))
+        deleteMovie: (movie) => dispatch(deleteMovie(movie)),
+        likeMovie: (movie) => dispatch(likeMovie(movie)),
+        dislikeMovie: (movie) => dispatch(dislikeMovie(movie))
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieSummary);
 
-{/* <div className="column"> */}
-{/* <div>
-                    { button }
-                </div> */}
-                {/* <div>
-                    <button onClick={onAddClick}>Add</button>
-                </div> */}
-                {/* </div> */}
-
-{/* {props.userMovies && props.userMovies.map(userMovie => 
-                    props.movie.id === userMovie.id ? <button>Delete</button> : <button>Add</button>
-                )} */}
-                // 
-                // 
-
-// it works!!!!!!!!!!!!!!!!!!!!
-// const userMovie = props.userMovies.map(userMovie => 
-//     props.movie.id == userMovie.id ? <button>Delete</button> : null)
-
-// changes to filegit stat
