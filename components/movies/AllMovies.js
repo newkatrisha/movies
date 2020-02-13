@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MovieList from './MovieList';
+import MovieList from '../../components/movies/MovieList';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -8,13 +8,12 @@ import { getMovies } from '../../selectors';
 
 class AllMovies extends Component {
     render() {
-        const { auth } = this.props; 
-        const {movies} = this.props;
+        console.log('allmovies');
+        const {movies, myMovies, auth} = this.props;
         return (
-            <div>
-                <h1>All Movies</h1>
-                <MovieList movies={movies} key={auth.uid}/>
-            </div>                   
+            <div className="ui container">
+                <MovieList movies={movies} myMovies={myMovies} key={auth.uid}/>
+            </div>  
         )
     }
 }
@@ -22,6 +21,7 @@ class AllMovies extends Component {
 const mapStateToProps = (state) => {
     return {
         movies: getMovies(state),
+        myMovies: state.firebase.profile.movies,
         auth: state.firebase.profile
    }
 }

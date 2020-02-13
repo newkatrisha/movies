@@ -1,33 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
 import { connect } from 'react-redux';
 import SearchFilter from './SearchFilter';
 
 const Navbar = (props) => {
+    console.log('navbar');
     const { auth } = props;
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
     return (
-
-        <div id="navbar" className="ui secondary menu">
-            <div className="item">
-                <Link to='/'>
+        <div className="ui inverted segment">
+            <div id="navbar" className="ui inverted top fixed borderless menu ">
+                <a href='/all' className="item">
                     <i className="video icon" />
-                </Link>
+                </a>
+                <a className="item">
+                    <SearchFilter />
+                </a>
+                { links }
             </div>
-            <div className="item">
-                <SearchFilter />
-            </div>
-            { links }
         </div>
-        
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        myMovies: state.firebase.profile.movies
     }
 }
 

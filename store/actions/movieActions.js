@@ -35,7 +35,7 @@ export const addMovie = (movie) => {
     
     userRef.update({
       ratedMovies: firebase.firestore.FieldValue.arrayUnion({
-        movie: movie.id,
+        id: movie.id,
         state: 1
       })
   }).then(() => {
@@ -90,13 +90,13 @@ export const dislikeMovie = (movie) => {
   
   userRef.update({
     ratedMovies: firebase.firestore.FieldValue.arrayUnion({
-      movie: movie.id,
+      id: movie.id,
       state: 0
     })
 }).then(() => {
-  dispatch({ type: 'LIKED_MOVIE', movie })
+  dispatch({ type: 'DISLIKE_MOVIE', movie })
 }).catch((err) => {
-  dispatch({ type: 'LIKE_MOVIE_ERROR', err })
+  dispatch({ type: 'DISLIKE_MOVIE_ERROR', err })
 })  
 }
 };

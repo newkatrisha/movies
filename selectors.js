@@ -5,11 +5,15 @@ import { sampleSize } from 'lodash';
 // selector
 const selectMovies = (state) => state.firestore.ordered.movies_new;
 
-
 // reselect function
 export const getMovies = createSelector(
     [ selectMovies ],
-    movies => movies ? sampleSize(movies, 10) : null,
+    movies => movies ? sampleSize(movies, 20) : null,
+)
+
+export const getForRate = createSelector(
+    [selectMovies],
+    movies => movies ? sampleSize(movies, 50) : null
 )
 
 

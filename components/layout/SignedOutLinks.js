@@ -1,16 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'; 
 
 const SignedOutLinks = () => {
     return (
         <div className="ui secondary menu">
-            <div className="item">
-                <NavLink to='/signup'>Signup</NavLink>
-            </div>
-            <div className="item">
-                <NavLink to='/login'>Login</NavLink>
-            </div>
+            <a className="item" href='/signup'>
+                Signup
+            </a>
+            <a className="item" href='login'>
+                Login
+            </a>
         </div>
+        
     );
 }
 

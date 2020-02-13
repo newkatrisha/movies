@@ -27,7 +27,7 @@ class SearchFilter extends React.Component {
         })
         const { value } = this.state;
         const { movies } = this.props;
-        const result = movies.filter(el => el.title.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+        const result = movies.filter(el => el.title.toLowerCase().indexOf(value.toLowerCase()) === 0);
         
         return this.setState({
             results: result,
@@ -66,3 +66,5 @@ export default compose(
     ])
 )(SearchFilter)
 
+
+// !== -1
