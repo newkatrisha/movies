@@ -1,41 +1,135 @@
 import React from 'react';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { getMovies } from '../../selectors';
 import Movies from './Movies';
-import { Link } from 'react-router-dom';
+import { addMovie, deleteMovie } from '../../store/actions/movieActions';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
-const MovieList = ({movies, myMovies}) => {
-    console.log('movielist');
-    if(movies && myMovies) {
-        const films = movies.filter(el => !myMovies.some(el2 => el.id === el2.id));
-        return (
-            <div className="ui grid five column"> 
-                { films && films.map(movie => {
-                    return (
-                        <div className="column" >
-                            <Link to={'/movies/' + movie.id }>
-                                <Movies movie={movie} key={movie.id}  />
-                            </Link>
+
+class MovieList extends React.Component  {
+    constructor(props) {
+        super(props);
+        this.state = {
+          items: 20,
+          hasMoreItems: true
+        };
+      }
+
+    loadMore = () => {
+        if(this.state.items === 100){
+            this.setState({ hasMoreItems: false});
+        } else {
+            setTimeout(() => {
+            this.setState({ items: this.state.items + 10});
+            }, 2000);
+        }
+    }
+
+    render() {
+        const {movies, myMovies, addMovie, deleteMovie} = this.props;
+        const load = <div className="ui segment">
+                         <div className="ui active inverted dimmer">
+                        <div className="ui mini text loader">Loading</div>
                         </div>
-                    )
-                })}
-            </div>                   
-        )
-    } else return (
-        <div className="ui grid five column"> 
-            { movies && movies.map(movie => {
-                return (
-                    <div className="column" >
-                        <Link to={'/movies/' + movie.id }>
-                            <Movies movie={movie} key={movie.id}  />
-                        </Link>
-                    </div>
-                )
+                        </div>
+                  
+        if(movies && myMovies && myMovies.length !==0) {
+            const films = movies && movies.filter(el => !myMovies.some(el2 => el.id === el2.id));
+            const x = films && films.slice(0, this.state.items);
+            return (
+                <InfiniteScroll
+                    dataLength={x.length}
+                    next={this.loadMore}
+                    hasMore={this.state.hasMoreItems}
+                    loader={load}
+                    scrollThreshold="200px"
+                    endMessage={
+                        <button style={{textAlign: 'center'}}>
+                        Click to see more
+                        </button>
+                    }
+                    
+                >
+                    <div className="ui container">
+                        <div className="ui grid five column">
+                        {x.map(movie => {
+                        return (
+                        <div className="column" >
+                            <Movies 
+                                movie={movie} 
+                                addMovie={addMovie}
+                                deleteMovie={deleteMovie}
+                                key={movie.id}  
+                            />
+                        </div> 
+                        )
             })}
-        </div>                   
-    )
-    
-    
-    
+                        </div>  
+                    </div>     
+                </InfiniteScroll>  
+            )
+        } else return (
+            <InfiniteScroll
+                dataLength={movies && movies.slice(0, this.state.items).length}
+                next={this.loadMore}
+                hasMore={this.state.hasMoreItems}
+                loader={load}
+                scrollThreshold="200px"
+                endMessage={
+                    <button style={{textAlign: 'center'}}>
+                    Click to see more
+                    </button>
+                }
+            >
+                <div className="ui container">
+                    <div className="ui grid five column"> 
+                        { movies && movies.slice(0, this.state.items).map(movie => {
+                            return (
+                                <div className="column" >
+                                    <Movies 
+                                        movie={movie} 
+                                        addMovie={addMovie}
+                                        deleteMovie={deleteMovie}
+                                        key={movie.id}  
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div> 
+                 </div>
+                </InfiniteScroll>
+                   
+        )
+       }
 }
 
-export default MovieList;
+
+const mapStateToProps = (state) => {
+    return {
+        movies: getMovies(state),
+        myMovies: state.firebase.profile.movies,
+        auth: state.firebase.profile
+   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return { 
+        addMovie: (movie, id) => dispatch(addMovie(movie, id)),
+        deleteMovie: (movie) => dispatch(deleteMovie(movie))
+    }
+}
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'movies_new' }
+    ])
+)(MovieList);
+
+
+{/* <div className="ui compact bottom attached segment">
+                <button className="ui button">Hello</button>    
+            </div> */}

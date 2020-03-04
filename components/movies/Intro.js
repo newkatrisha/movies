@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-const Intro = () => {
+const Intro = (props) => {
     console.log('intro');
     return (
         <div className="ui container">
@@ -9,13 +11,22 @@ const Intro = () => {
                 <div className="ui icon header">
                     Let's see what movies you like!
                 </div>
+                {props.auth.uid ?
                 <Link to='/rate'>
                 <div className="ui primary button">Rate movies</div>
-                </Link>
-                
+                </Link> :
+                <Link to='/login'>
+                <div className="ui primary button">Rate movies</div>
+                </Link> }
             </div>
         </div>
     )
 }
 
-export default Intro;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(Intro);

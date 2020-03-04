@@ -2,11 +2,31 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import { addMovie } from '../../store/actions/movieActions';
 
 
 const MovieDetails = (props) => {
-    console.log('movie details');
-    const { movie } = props;
+   
+    const { movie, myMovies, id } = props;
+  
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        props.addMovie(movie, id);
+        console.log('added movie ' + movie.id);
+    }
+
+    let x = 0;
+    myMovies && myMovies.forEach(e => {
+        if(e.id === id) {
+            x = 1
+        }
+    })
+  
+
+    const button = 
+    x ? null :
+    <button id="myBtn" onClick={handleOnClick} className="ui yellow button">Save to My Movies</button>
+
     if (movie) {
         return (
             <div className="ui container">
@@ -21,7 +41,7 @@ const MovieDetails = (props) => {
                                 <p>{movie.summary_text}</p>
                             </div>
                             <div className="extra">
-                                Additional Details
+                                {button}
                             </div>
                         </div>
                     </div>  
@@ -40,16 +60,26 @@ const MovieDetails = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    console.log(ownProps);
     const id = ownProps.match.params.id;
     const movies = state.firestore.data.movies_new;
-    const movie = movies ? movies[id]: null;
+    const myMovies = state.firebase.profile.movies;
+    const movie = movies ? movies[id] : null;
     return {
-        movie: movie
+        movie: movie,
+        myMovies: myMovies,
+        id: id
     }
 } 
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addMovie: (movie, id) => dispatch(addMovie(movie, id))
+    }
+}
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
         { collection: 'movies_new' }
     ])

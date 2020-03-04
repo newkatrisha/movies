@@ -5,7 +5,7 @@ import { likeMovie, dislikeMovie } from '../../store/actions/movieActions';
 
 const MovieSummary = (props) => {
   
-    const onLikeClick = (e, state) => {
+    const onLikeClick = (e) => {
         e.preventDefault();
         props.likeMovie(props.movie);  
     }
@@ -24,8 +24,8 @@ const MovieSummary = (props) => {
     })
 
     const buttonLike = 
-        x ? 
-        null :
+        // x ? 
+        // null :
         <div className="ui buttons">
         <button onClick={onLikeClick} className="ui green button"><i className="thumbs up icon"></i></button>
         <div className="or"></div>
@@ -33,6 +33,18 @@ const MovieSummary = (props) => {
         </div>
     
     return (
+        x ?
+        <div className="ui fluid card">
+            <div className="image">
+                <img alt="" src={props.movie.poster} />
+            </div>
+            <div className="content">
+                <div className="header">{props.movie.title}</div>
+            </div>
+            <div className="ui bottom attached button">
+                Done!
+            </div>
+        </div> :
         <div className="ui fluid card">
             <div className="image">
                 <img alt="" src={props.movie.poster} />
@@ -42,6 +54,7 @@ const MovieSummary = (props) => {
             </div>
                 {buttonLike}
         </div>
+        
     )
 }
 

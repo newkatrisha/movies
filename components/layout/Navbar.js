@@ -10,13 +10,14 @@ const Navbar = (props) => {
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
     return (
         <div className="ui inverted segment">
-            <div id="navbar" className="ui inverted top fixed borderless menu ">
-                <a href='/all' className="item">
+            <div id="navbar" className="ui top fixed borderless menu ">
+                <a href='/' className="item">
                     <i className="video icon" />
                 </a>
                 <a className="item">
                     <SearchFilter />
                 </a>
+                <a href="/all" className="item">Movies</a>
                 { links }
             </div>
         </div>
@@ -25,8 +26,7 @@ const Navbar = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth,
-        myMovies: state.firebase.profile.movies
+        auth: state.firebase.auth
     }
 }
 

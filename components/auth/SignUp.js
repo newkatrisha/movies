@@ -11,7 +11,8 @@ class SignUp extends Component {
             lastName: '',
             email: '',
             password: '',
-            movies: []
+            movies: [],
+            ratedMovies: []
         };
     }
     
@@ -27,7 +28,7 @@ class SignUp extends Component {
         
     }
     render() {
-        const { auth, authError } = this.props;
+        const { auth } = this.props;
         if (auth.uid) return <Redirect to='/' />
 
         return (
@@ -48,7 +49,7 @@ class SignUp extends Component {
                     <label>Password</label>
                     <input type="password" id="password" placeholder="" onChange={this.handleChange} />
                 </div>
-                <button className="ui button" type="submit">Sign up</button>
+                <button className="ui blue button" type="submit">Sign up</button>
             </form>
         )
     }
