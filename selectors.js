@@ -16,6 +16,11 @@ export const getForRate = createSelector(
     movies => movies ? sampleSize(movies, 50) : null
 )
 
+export const getForRecommend = createSelector(
+    [ selectMovies ],
+    movies => movies ? sampleSize(movies, 10) : null
+)
+
 
 
 

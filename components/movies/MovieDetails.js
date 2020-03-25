@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { addMovie } from '../../store/actions/movieActions';
+import { Link } from 'react-router-dom';
 
 
 const MovieDetails = (props) => {
    
-    const { movie, myMovies, id } = props;
+    const { movie, myMovies, id, auth } = props;
   
-    const handleOnClick = (e) => {
+    const handleAdd = (e) => {
         e.preventDefault();
         props.addMovie(movie, id);
         console.log('added movie ' + movie.id);
@@ -23,11 +24,20 @@ const MovieDetails = (props) => {
     })
   
 
-    const button = 
-    x ? null :
-    <button id="myBtn" onClick={handleOnClick} className="ui yellow button">Save to My Movies</button>
-
+    const button = () => {
+        if(!auth.uid || x) {
+            return (
+                <Link to='/login'>
+                    <button className="ui yellow button">Save to My Movies</button>
+                </Link>
+            )
+        } else return (
+            <button id="myBtn" onClick={handleAdd} className="ui yellow button">Save to My Movies</button>
+        )
+    }
+    
     if (movie) {
+        console.log(movie);
         return (
             <div className="ui container">
                 <div className="ui items">
@@ -35,13 +45,19 @@ const MovieDetails = (props) => {
                         <div className="medium ui image">
                             <img alt="" src={movie.poster} />
                         </div>
-                        <div className="top aligned content">
-                            <h1>{movie.title}</h1>
+                        <div className="content">
+                            <div className="header">
+                                <h1>{movie.title}</h1>
+                            </div>
+                            <div className="meta">
+                                <b>{movie.genres.join(', ')}</b>
+                            </div>
+                            
                             <div className="description">
                                 <p>{movie.summary_text}</p>
                             </div>
                             <div className="extra">
-                                {button}
+                                {button()}
                             </div>
                         </div>
                     </div>  
@@ -60,7 +76,7 @@ const MovieDetails = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log(ownProps);
+    const auth = state.firebase.auth;
     const id = ownProps.match.params.id;
     const movies = state.firestore.data.movies_new;
     const myMovies = state.firebase.profile.movies;
@@ -68,7 +84,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         movie: movie,
         myMovies: myMovies,
-        id: id
+        id: id,
+        auth: auth
     }
 } 
 

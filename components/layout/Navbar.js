@@ -10,7 +10,7 @@ const Navbar = (props) => {
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
     return (
         <div className="ui inverted segment">
-            <div id="navbar" className="ui top fixed borderless menu ">
+            <div id="navbar" className="ui inverted top fixed borderless menu ">
                 <a href='/' className="item">
                     <i className="video icon" />
                 </a>

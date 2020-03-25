@@ -9,6 +9,7 @@ import MyMovies from './movies/MyMovies';
 import Intro from './movies/Intro';
 import MovieRate from './movies/MovieRate';
 import MovieList from './movies/MovieList';
+import Recommend from './movies/Recommend';
 
 
 class App extends React.Component {
@@ -29,6 +30,7 @@ class App extends React.Component {
                 <Route path='/signup' component={SignUp} />
                 <Route path='/movies/:id' component={MovieDetails} />
                 <Route path='/mylist' component={MyMovies} />
+                <Route path='/recommend' component={Recommend} />
               </Switch>
             </div>
             {/* <Footer /> */}

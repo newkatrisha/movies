@@ -40,7 +40,8 @@ class MyMovies extends Component {
                                         userMovies={myMovies} 
                                         addMovie={addMovie}
                                         deleteMovie={deleteMovie}
-                                        key={movie.id}  
+                                        key={movie.id} 
+                                        auth={auth} 
                                     />
                                 </div>
                             )

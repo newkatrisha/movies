@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+
 
 const Movies = (props) => {
     const onAddClick = (e) => {
@@ -19,12 +19,25 @@ const Movies = (props) => {
         }
     });
 
-   const button = 
-        exists ?
-        // null in place of grey button could work
-        <i onClick={onDeleteClick} className="right floated trash alternate icon"></i> :
-        <i onClick={onAddClick} className="right floated star icon"></i>
-    console.log(props.movie)
+   const extra = () => {
+       console.log(props.movie);
+       if(!props.auth.uid) {
+           return null
+       } else if(exists) {
+           return  (
+               <div className="extra content">
+               <b>{props.movie.rating_imdb}</b>/10
+               <i onClick={onDeleteClick} className="right floated trash alternate icon"></i>
+               </div>
+           )      
+       } return (
+           <div className="extra content">
+               <b>{props.movie.rating_imdb}</b>/10
+           <i onClick={onAddClick} className="right floated star icon"></i>
+           </div>
+       )
+   }
+
     return (
         <Link to={'/movies/' + props.movie.id }>
             <div className="ui card" style={{height: '100%'}}>
@@ -34,12 +47,7 @@ const Movies = (props) => {
                 <div className="content">
                     <div className="header">{props.movie.title}</div>
                 </div>
-                <div className="extra content">
-                    <span>
-                        <b>{props.movie.rating_imdb}</b>
-                    </span>
-                   {button}
-                </div>
+                {extra()}
             </div>
         </Link>
     )

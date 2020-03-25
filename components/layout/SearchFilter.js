@@ -65,6 +65,3 @@ export default compose(
         { collection: 'movies_new' }
     ])
 )(SearchFilter)
-
-
-// !== -1

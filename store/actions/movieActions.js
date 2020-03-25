@@ -1,4 +1,4 @@
-export const addMovie = (movie) => {
+export const addMovie = (movie, id) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
     //  make async call to database
      const firestore = getFirestore();
@@ -7,7 +7,10 @@ export const addMovie = (movie) => {
      const userRef = firestore.collection('users').doc(userId);
      
       userRef.update({
-        movies: firebase.firestore.FieldValue.arrayUnion(movie)
+        movies: firebase.firestore.FieldValue.arrayUnion({
+          ...movie, 
+          id: id
+        })
       }).then(() => {
        dispatch({ type: 'ADD_MOVIE', movie })
      }).catch((err) => {

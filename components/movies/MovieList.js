@@ -29,7 +29,8 @@ class MovieList extends React.Component  {
     }
 
     render() {
-        const {movies, myMovies, addMovie, deleteMovie} = this.props;
+        const {movies, myMovies, addMovie, deleteMovie, auth } = this.props;
+        console.log(auth);
         const load = <div className="ui segment">
                          <div className="ui active inverted dimmer">
                         <div className="ui mini text loader">Loading</div>
@@ -47,11 +48,10 @@ class MovieList extends React.Component  {
                     loader={load}
                     scrollThreshold="200px"
                     endMessage={
-                        <button style={{textAlign: 'center'}}>
+                        <button>
                         Click to see more
                         </button>
                     }
-                    
                 >
                     <div className="ui container">
                         <div className="ui grid five column">
@@ -62,14 +62,15 @@ class MovieList extends React.Component  {
                                 movie={movie} 
                                 addMovie={addMovie}
                                 deleteMovie={deleteMovie}
-                                key={movie.id}  
+                                key={movie.id} 
+                                auth={auth} 
                             />
                         </div> 
                         )
-            })}
+                        })}
                         </div>  
                     </div>     
-                </InfiniteScroll>  
+                </InfiniteScroll> 
             )
         } else return (
             <InfiniteScroll
@@ -93,6 +94,7 @@ class MovieList extends React.Component  {
                                         movie={movie} 
                                         addMovie={addMovie}
                                         deleteMovie={deleteMovie}
+                                        auth={auth}
                                         key={movie.id}  
                                     />
                                 </div>
@@ -108,10 +110,11 @@ class MovieList extends React.Component  {
 
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         movies: getMovies(state),
         myMovies: state.firebase.profile.movies,
-        auth: state.firebase.profile
+        auth: state.firebase.auth
    }
 }
 
