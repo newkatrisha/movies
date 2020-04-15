@@ -80,9 +80,11 @@ class MovieList extends React.Component  {
                 loader={load}
                 scrollThreshold="200px"
                 endMessage={
-                    <button style={{textAlign: 'center'}}>
+                    <div className="ui container center aligned row">
+                    
                     Click to see more
-                    </button>
+                   
+                    </div>
                 }
             >
                 <div className="ui container">
@@ -133,6 +135,3 @@ export default compose(
 )(MovieList);
 
 
-{/* <div className="ui compact bottom attached segment">
-                <button className="ui button">Hello</button>    
-            </div> */}

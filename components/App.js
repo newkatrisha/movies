@@ -10,6 +10,7 @@ import Intro from './movies/Intro';
 import MovieRate from './movies/MovieRate';
 import MovieList from './movies/MovieList';
 import Recommend from './movies/Recommend';
+import User from './auth/User';
 
 
 class App extends React.Component {
@@ -31,10 +32,12 @@ class App extends React.Component {
                 <Route path='/movies/:id' component={MovieDetails} />
                 <Route path='/mylist' component={MyMovies} />
                 <Route path='/recommend' component={Recommend} />
+                <Route path='/users/:id' component={User} />
               </Switch>
             </div>
-            {/* <Footer /> */}
+            <Footer />
           </div>
+          
       </BrowserRouter>
     );
   }

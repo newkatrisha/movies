@@ -25,13 +25,15 @@ const MovieDetails = (props) => {
   
 
     const button = () => {
-        if(!auth.uid || x) {
+        if(!auth.uid) {
             return (
                 <Link to='/login'>
                     <button className="ui yellow button">Save to My Movies</button>
                 </Link>
             )
-        } else return (
+        } else if (x) {
+            return null
+        } return (
             <button id="myBtn" onClick={handleAdd} className="ui yellow button">Save to My Movies</button>
         )
     }
@@ -52,9 +54,14 @@ const MovieDetails = (props) => {
                             <div className="meta">
                                 <b>{movie.genres.join(', ')}</b>
                             </div>
-                            
+                            <div className="ui hidden divider"></div>
+                            <div className="description" id="actors">
+                            <p><b>Stars: </b> 
+                             {movie.stars.join(', ')}</p>
+                            </div>
+                            <div className="ui hidden divider"></div>
                             <div className="description">
-                                <p>{movie.summary_text}</p>
+                                <p id="about">{movie.summary_text}</p>
                             </div>
                             <div className="extra">
                                 {button()}

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getForRate } from '../../selectors';
 import MovieSummary from './MovieSummary';
 import { Link } from 'react-router-dom';
-import { Button, Modal } from 'semantic-ui-react';
 import { Progress } from 'semantic-ui-react'
 
 
@@ -50,7 +49,7 @@ class MovieRate extends React.Component {
             )
             return  (
                 <div className="ui container" >
-                    <Progress percent={rated.length*10} progress />
+                    <Progress warning percent={rated.length*10} progress />
                     <div className="ui grid six column row stretched" style={{height: '100%'}}>
                         {uniqueMovies}
                         <div className="column two wide">
@@ -62,8 +61,8 @@ class MovieRate extends React.Component {
             )
         } else return (
             <Link to='/recommend'>
-            <div className="ui container">
-                <div className="ui compact positive message">
+            <div className="ui container center aligned row">
+                <div className="ui big positive message">
                     <div className="header">
                         Submit!
                     </div>
@@ -93,9 +92,3 @@ export default compose(
 
 
 
-// <div className="ui small progress" >
-//                     <div className="bar" style={{width: '44%'}}>
-//                         <div className="progress" ></div>
-//                     </div>
-//                     <div className="label">Rate At Least 10 Movies</div>
-//                     </div>

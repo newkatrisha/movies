@@ -31,9 +31,10 @@ class Recommend extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         movies: getForRecommend(state),
-        auth: state.firebase.profile
+        auth: state.firebase.auth
    }
 }
 

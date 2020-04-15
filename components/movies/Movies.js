@@ -20,7 +20,7 @@ const Movies = (props) => {
     });
 
    const extra = () => {
-       console.log(props.movie);
+       console.log(props.auth);
        if(!props.auth.uid) {
            return null
        } else if(exists) {

@@ -9,6 +9,7 @@ class SignUp extends Component {
         this.state = {
             firstName: '',
             lastName: '',
+            gender: '',
             email: '',
             password: '',
             movies: [],
@@ -23,12 +24,13 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        // this.state = newUser
+        
         this.props.signUp(this.state);
         
     }
     render() {
-        const { auth } = this.props;
+        
+        const { auth, authError } = this.props;
         if (auth.uid) return <Redirect to='/' />
 
         return (
@@ -42,6 +44,13 @@ class SignUp extends Component {
                     <input type="text" id="lastName" placeholder="" onChange={this.handleChange} />
                 </div>
                 <div className="field">
+                    <select className="ui dropdown" id="gender" onChange={this.handleChange}>
+                        <option value="Unknown">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div className="field">
                     <label>E-mail</label>
                     <input type="email" id="email" placeholder="" onChange={this.handleChange} />
                 </div>
@@ -49,7 +58,16 @@ class SignUp extends Component {
                     <label>Password</label>
                     <input type="password" id="password" placeholder="" onChange={this.handleChange} />
                 </div>
-                <button className="ui blue button" type="submit">Sign up</button>
+                    { authError ? 
+                        <div className="ui negative message">
+                            <div className="header">
+                                Signup Error
+                            </div>
+                            <p>{authError}</p> 
+                        </div> : 
+                        null 
+                    }
+                <button className="ui blue button" type="submit">Sign up</button> 
             </form>
         )
     }
@@ -58,7 +76,7 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
-        authError: state.auth.authEror
+        authError: state.auth.authError
     }
 }
 
@@ -70,3 +88,8 @@ const mapDispacthToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispacthToProps)(SignUp);
+
+
+
+
+

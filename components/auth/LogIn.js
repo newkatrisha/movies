@@ -32,16 +32,15 @@ class LogIn extends Component {
                     <label>Password</label>
                     <input type="password" id="password" placeholder="" onChange={this.handleChange} />
                 </div>
+                { authError ? 
+                    <div className="ui negative floating message">
+                        <h4>Login Error</h4>
+                    </div> : null }
                 <button className="ui blue button" type="submit">Submit</button>
-                <div className="red-text">
-                    { authError ? <p>{authError}</p> : null }
-                </div>
-                
-                    <div className="ui compact message">
-                    <i className="icon help"></i>
+                <div className="ui compact message">
+                    <i className="icon help" />
                     Don't have a profile? <a href="/signup">Signup here</a>
-                    </div>
-                
+                </div> 
             </form>
             
         )

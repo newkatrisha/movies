@@ -6,17 +6,17 @@ import { Redirect } from 'react-router-dom';
 const Intro = (props) => {
     console.log('intro');
     return (
-        <div className="ui container">
-            <div className="ui placeholder segment">
+        <div  className="ui container">
+            <div id="rate" className="ui placeholder segment">
                 <div className="ui icon header">
                     Let's see what movies you like!
                 </div>
                 {props.auth.uid ?
                 <Link to='/rate'>
-                <div className="ui primary button">Rate movies</div>
+                <div className="ui button">Rate movies</div>
                 </Link> :
                 <Link to='/login'>
-                <div className="ui primary button">Rate movies</div>
+                <div className="ui button">Rate movies</div>
                 </Link> }
             </div>
         </div>
