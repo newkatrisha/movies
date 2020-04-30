@@ -5,10 +5,7 @@ import Boy from '../../avatars/boy-1.png';
 import Girl from '../../avatars/girl-1.png';
 
 
-
-
 const SignedInLinks = (props) => {
-    console.log(props);
     
     const { name, gender, initials } = props.profile;
     const img = () => {
